@@ -1,6 +1,8 @@
 # Tranining_Location
 
-##. I
+##. I.
+
+Không có key ko hiện lên dk map
 
 ## II. Location-Based Service (Dịch vụ dựa trên vị trí)
 
@@ -93,5 +95,68 @@ requestLocationUpdates():
 - Criteria: như ở phần 3
 
 - PendingIntent: Location update được nhận bởi LocationListener callback hoặc bởi broadcast intents tới 1 PendingIntent được cung cấp. Nếu được cung cấp thì location upate được gửi với key là KEY_LOCATION_CHANGED và một giá trị Location. ====> Xem tiếp sau
+
+
+```
+This API is not the recommended method for accessing Android location.
+The Google Location Services API, part of Google Play services, is the preferred way to add location-awareness to your app. It offers a simpler API, higher accuracy, low-power geofencing, and more. If you are currently using the android.location API, you are strongly encouraged to switch to the Google Location Services API as soon as possible. 
+
+To learn more about the Google Location Services API, see the Location API overview.
+```
+
+### IV. Tối ưu hóa pin
+
+### 1. Background Location Limit 
+
+Giới thiệu ở Android 8.0 có 1 số cải tiến về cách location service ảnh hưởng tới pin:
+
+-  Thu thập vị trí ở background bị giới hạn và location được tính, gửi đi chỉ vài lần mỗi giờ.
+
+- Quét bằng Wifi sẽ thận trọng hơn, và update vị trí sẽ không được thực hiện khi thiết bị được giữ kết nối tới cùng 1 điểm truy cập tĩnh
+
+- Geofencing sẽ thay đổi từ chục giây tới sấp xỉ 2 phút, sẽ có thể làm pin tăng hiệu suất tới 10 lần
+
+### 2. Hiểu về tiêu thụ pin
+
+- Độ chính xác: càng cao càng tốn pin.
+
+Bạn có thể chỉnh được độ chính xác của việc xác định vị trí bằng phương thức setPriority() với một số các giá trị sau:
+
+PRIORITY_HIGH_ACCURACY: Cung cấp vị trí chính xác nhất có thể bằng cách sử dụng nhiều đầu vào để xác định vị trí. Nó cho phép GPS, Wi-Fi, mang di động và các cảm biến khác nữa dẫn đến hao tổn pin khá lớn.
+
+PRIORITY_BALANCED_POWER_ACCURACY: Cung cấp vị trí chính xác trong khi tối ưu hóa năng lượng. Rất ít khi sử dụng GPS, thông thường sử dụng Wi-Fi và thông tin di động để xác định vị trí.
+
+PRIORITY_LOW_POWER: Chủ yếu dựa vào các tháp di động và tránh sử dụng GPS và Wi-Fi, cung cấp độ chính xác thô cấp thành phố với độ tiêu hao pin tối thiểu.
+
+PRIORITY_NO_POWER: Nhận vị trí thụ động từ các ứng dụng khác mà vị trí đã được tính toán rồi.
+Tùy vào ứng dụng cần độ chính xác như nào thì sẽ cấp cho ứng dụng quyền truy cập tương ứng.
+
+- Tần suất: càng tính toán vị trí nhiều thì pin càng tốn
+
+Có 2 phương thức cho phép bạn thay đổi khoảng thời gian tính toán vị trí:
+
+setInterval(): Để chỉ định khoản thời gian mà vị trí được tính toán cho ứng dụng của bạn.
+
+setFastestInterval(): Để chỉ định khoảng thời gian mà vị trí được tính toán cho các ứng dụng khác được gửi đến ứng dụng của bạn.
+
+Để tránh lãng phí pin thì nên sử dụng khoảng thời gian vài giây để lấy vị trí trong các trường hợp foreground. Còn trong những trường hợp background thì hãy tìm giá trị lớn nhất có thể được. Việc này được Android 8.0 giải quyết nhưng đối với những phiên bản cũ hơn lại là một các tốt.
+
+- Độ trễ: tốc độ mà dữ liệu vị trí được gửi đến, càng thấp càng tốn pin
+
+
+Có thể điều chỉnh độ trễ bằng phương thức setMaxWaitTime() thường được truyền một giá trị lớn hơn nhiều lần so với khoảng thời gian setInterval(). Cài đặt này giúp cho việc trì hoãn phân phối vị trí và cập nhật vị trí.
+
+Nếu ứng dụng của bạn không ngay lập tức cần cập nhật vị trí thì bạn nên sử dụng giá trị lớn nhất có thể để có thể tiết kiệm pin nhiều nhất.
+
+Khi bạn sử dụng geofences, ứng dụng của bạn nên truyền vào một giá trị lớn vào trong phương thức setNotificationResponsiveness(). Giá trị 5 phút hoặc lớn hơn được đề nghị trong trường hợp này.
+
+### 3. Một số trường hợp
+
+- Bắt đầu cập nhật dựa trên trạng thái của người dùng: Chỉ yêu cầu cập nhật khi người dùng đang lái xe hoặc đang đi xe đạp.
+
+- Biết vị trí của thiết bị: Ví dụ như ứng dụng thời tiết muốn biết vị trí của thiết bị. Vậy nên sử dụng phương thức getLastLocation() để trả về giá trị khả dụng gần đây(hiếm khi trả về null). Sử dụng kết hợp với phương thức isLocationAvailable() trả về giá trị true khi vị trí được trả về một cách hợp lý.
+
+
+
 
 
