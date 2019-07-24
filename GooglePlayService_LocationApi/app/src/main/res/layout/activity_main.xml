@@ -1,0 +1,63 @@
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/activity_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="com.example.googleplayservice_locationapi.MainActivity">
+
+    <TextView
+            android:layout_marginTop="@dimen/margin_Top"
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Current location"
+            android:textColor="@android:color/black"
+            android:textSize="30sp"/>
+
+    <TextView
+            android:id="@+id/tv_current_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_title"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="!HaNoi!"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"/>
+
+    <Button
+            android:textAllCaps="false"
+            android:id="@+id/btn_get_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_current_location"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="Get location"/>
+
+    <Switch
+            android:id="@+id/sw_auto_update_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btn_get_location"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:switchPadding="20dp"
+            android:text="Update location automatically"/>
+
+    <Button
+            android:id="@+id/main_move_btn"
+            android:layout_marginTop="64dp"
+            android:layout_centerHorizontal="true"
+            android:textAllCaps="false"
+            android:layout_below="@id/sw_auto_update_location"
+            android:text="Move to Activity using FusedLocationProviderClient"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+</RelativeLayout>
