@@ -10,10 +10,6 @@ Reverse geocoding là quá trình chuyển đổi tọa độ địa lý thành 
 
 Trong Android ta sử dụng Geocoder để thực hiện việc này
 
-
-
-
-```````````````````
 Không có key ko hiện lên dk map
 
 ## II. Location-Based Service (Dịch vụ dựa trên vị trí)
