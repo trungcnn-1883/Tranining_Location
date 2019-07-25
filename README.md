@@ -9,9 +9,6 @@ Geocoding (mã hóa địa lý) là quá trình chuyển đổi địa chỉ (nh
 Reverse geocoding là quá trình chuyển đổi tọa độ địa lý thành địa chỉ có thể đọc được của con người.
 
 Trong Android ta sử dụng Geocoder để thực hiện việc này
-
-Không có key ko hiện lên dk map
-
 ## II. Location-Based Service (Dịch vụ dựa trên vị trí)
 
 ### 1. Khái niệm
@@ -30,6 +27,14 @@ Dựa vào vị trí và các yêu cầu của thiết bị, thông qua mạng I
 
 Android cung cấp cho ứng dụng của bạn quyền truy cập vào các dịch vụ định vị được thiết bị hỗ trợ thông qua các lớp trong package android.location. Thành phần trung tâm của framework vị trí là lớp LocationManager, nơi cung cấp APIs để xác định vị trí, chứa nhiều phương thức liên quan
 
+Google đã cung cấp 1 cách mới và khuyên nên đổi sang cách đó
+
+```
+This API is not the recommended method for accessing Android location.
+The Google Location Services API, part of Google Play services, is the preferred way to add location-awareness to your app. It offers a simpler API, higher accuracy, low-power geofencing, and more. If you are currently using the android.location API, you are strongly encouraged to switch to the Google Location Services API as soon as possible. 
+
+To learn more about the Google Location Services API, see the Location API overview.
+```
 
 ### 2. Class xử lý trong Android 
 
@@ -102,15 +107,8 @@ requestLocationUpdates():
 
 - Criteria: như ở phần 3
 
-- PendingIntent: Location update được nhận bởi LocationListener callback hoặc bởi broadcast intents tới 1 PendingIntent được cung cấp. Nếu được cung cấp thì location upate được gửi với key là KEY_LOCATION_CHANGED và một giá trị Location. ====> Xem tiếp sau
+- PendingIntent: Location update được nhận bởi LocationListener callback hoặc bởi broadcast intents tới 1 PendingIntent được cung cấp. Nếu được cung cấp thì location upate được gửi với key là KEY_LOCATION_CHANGED và một giá trị Location. 
 
-
-```
-This API is not the recommended method for accessing Android location.
-The Google Location Services API, part of Google Play services, is the preferred way to add location-awareness to your app. It offers a simpler API, higher accuracy, low-power geofencing, and more. If you are currently using the android.location API, you are strongly encouraged to switch to the Google Location Services API as soon as possible. 
-
-To learn more about the Google Location Services API, see the Location API overview.
-```
 
 ### III. Google Play Service Location API
 
@@ -130,6 +128,8 @@ Hai quyền và độ chính xác:
 
 ### b. Các đối tượng sử dụng
 
+**FusedLocationProviderApi**: trước phiên bản Google Play Service SDK 11.0.0
+
 - **GoogleApiClient**: đối tượng chính cho việc tích hợp Google Play Service, chứa các phương thức giúp kết nối, add listener, tái kết nối tới Google Play Service
 
 Có 2 class inner
@@ -148,11 +148,15 @@ Có 2 class inner
 
 Ví dụ như có thể request độ chính xác, tần suất upate, độ trễ, ...
 
-- FusedLocationProviderApi: 
+**FusedLocationProviderClient**: từ phiên bản Google Play Service SDK 11.0.0, được khuyên dùng thay cho FusedLocationProviderApi
 
+Một số lý do:
 
+- Code đơn giản hơn, ko cần tới GoogleApiClient, ko cần quản lý logic kết nối
 
-- FusedLocationProviderClient: 
+- Ko cần hiểu quá trình kết nối phía ở dưới để code, tự đợi kết nối tới service được lập 
+
+==> Tránh được nhiều lỗi có thể xảy ra
 
 ### 2. Code
 
@@ -207,16 +211,6 @@ Khi bạn sử dụng geofences, ứng dụng của bạn nên truyền vào m�
 - Bắt đầu cập nhật dựa trên trạng thái của người dùng: Chỉ yêu cầu cập nhật khi người dùng đang lái xe hoặc đang đi xe đạp.
 
 - Biết vị trí của thiết bị: Ví dụ như ứng dụng thời tiết muốn biết vị trí của thiết bị. Vậy nên sử dụng phương thức getLastLocation() để trả về giá trị khả dụng gần đây(hiếm khi trả về null). Sử dụng kết hợp với phương thức isLocationAvailable() trả về giá trị true khi vị trí được trả về một cách hợp lý.
-
--------------------------------
-
-import it as import com.google.android.gms.location.FusedLocationProviderClient; 😅
-
-I notice that you are implementing LocationListener interface. In the mFusedLocationClient.requestLocationUpdates() method, now it doesn't take a LocationListener as a parameter. You can provide LocationCallback. As this is an abstract class you can't implement it like LocationListener. Make a callback method and pass it instead of 'this' as mentioned in Google's guide. import it as import com.google.android.gms.location.LocationCallback;
-
-With LocationCallback, you'll have onLocationResult() instead of onLocationChanged(). It returns LocationResult object instead of Location object. Use LocationResult.getLastLocation() to get the most recent location available in this result object. Import it as import com.google.android.gms.location.LocationResult;
-
-Using the new FusedLocationProviderClient is cleaner, since you don't need to connect a GoogleApiClient, and you don't need any of the GoogleApiClient callbacks.
 
 
 
