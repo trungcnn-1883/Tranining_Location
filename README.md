@@ -71,7 +71,7 @@ map.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
 ```
 Kết quả:
 
-<img src="img/lo2.png"/>
+<img src="img/lo2.jpg" width="250"/>
 
 
 ## II. Location-Based Service (Dịch vụ dựa trên vị trí)
