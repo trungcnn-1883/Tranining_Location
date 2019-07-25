@@ -69,11 +69,14 @@ map.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
 ```
 Geocoder geocoder = new Geocoder(this, Locale.ENGLISH);
 ```
-- Gọi hàm getFromLocation, với nhiều tham số có thể truyền vào như vĩ độ, kinh đọ, ...
+- Gọi hàm getFromLocation, với nhiều tham số có thể truyền vào như vĩ độ, kinh độ, ...
 
 ```
 geocoder.getFromLocation(latitude, longitude, 1);
 ```
+
+Rồi sẽ có đối tượng Address, sẽ lấy được nhiều thông tin về địa chỉ
+
 
 ## II. Location-Based Service (Dịch vụ dựa trên vị trí)
 
