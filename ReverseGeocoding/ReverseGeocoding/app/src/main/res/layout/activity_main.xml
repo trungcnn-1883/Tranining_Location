@@ -3,41 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        card_view:cardCornerRadius="0dp"
-        card_view:cardElevation="0dp">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center">
-
-            <TextView
-                android:id="@+id/txtLocationAddress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:gravity="center"
-                android:marqueeRepeatLimit="marquee_forever"
-                android:padding="16dp"
-                android:scrollHorizontally="true"
-                android:text="Current Marker Address" />
-
-        </RelativeLayout>
-
-    </androidx.cardview.widget.CardView>
-
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@id/main_longi_txt">
 
         <fragment
             android:id="@+id/mapFragment"
@@ -61,6 +31,66 @@
         </FrameLayout>
 
     </FrameLayout>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/main_longi_txt"
+        android:layout_margin="12dp"
+        card_view:cardCornerRadius="0dp"
+        card_view:cardElevation="0dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <TextView
+                android:layout_toStartOf="@id/main_go_btn"
+                android:id="@+id/txtLocationAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:padding="16dp"
+                android:scrollHorizontally="true"
+                android:text="Current Marker Address" />
+
+            <Button
+                android:id="@+id/main_go_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="Go" />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <EditText
+        android:id="@+id/main_lati_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_margin="8dp"
+        android:hint="Nhập vĩ độ: "
+        android:paddingLeft="@dimen/place_autocomplete_prediction_horizontal_margin"
+        android:paddingRight="@dimen/place_autocomplete_prediction_horizontal_margin" />
+
+    <EditText
+        android:id="@+id/main_longi_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/main_lati_txt"
+        android:layout_margin="8dp"
+        android:hint="Nhập kinh độ: "
+        android:paddingLeft="@dimen/place_autocomplete_prediction_horizontal_margin"
+        android:paddingRight="@dimen/place_autocomplete_prediction_horizontal_margin" />
 
 </RelativeLayout>
 
