@@ -10,30 +10,37 @@ Reverse geocoding là quá trình chuyển đổi tọa độ địa lý thành 
 
 Trong Android ta sử dụng Geocoder để thực hiện việc này
 
-Kết hợp với class SupportMapFragment, class giúp hiện thị map trên Android, ta có thể hiển thị được tọa độ của điểm thành điểm trên bản đồ. Nhưng trước hết cần đăng kí key trên Google Api, Maps SDK for Android, rồi cho vào thẻ meta-data trong application ở Manifest: 
+### 2. Code
+
+- Tạo đổi tượng Getcoder, local tùy chọn
+
+```
+Geocoder geocoder = new Geocoder(this, Locale.ENGLISH);
+```
+- Gọi hàm getFromLocation, với nhiều tham số có thể truyền vào như vĩ độ, kinh độ, ...
+
+```
+geocoder.getFromLocation(latitude, longitude, 1);
+```
+
+Rồi sẽ có đối tượng Address, sẽ lấy được nhiều thông tin về địa chỉ
+
+Kết hợp với class SupportMapFragment, class giúp hiện thị map trên Android, ta có thể hiển thị được tọa độ của điểm thành điểm trên bản đồ. Nhưng trước hết cần đăng kí key trên Google Api, Maps SDK for Android,
+
+<img src="img/lo3.png"/>
+
+rồi cho vào thẻ meta-data trong application ở Manifest: 
 
 ```
 <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-       >
+       ...>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAp6SqUaIo9gESs_L0nM3PEmZaDq2Yioi4" />
-
-
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:value="AIzaSyAp6SqUaIo9gESs..." />
+         ...
+        
     </application>
 ```
 
@@ -62,20 +69,9 @@ map.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
             }
         });
 ```
-### 2. Code
+Kết quả:
 
-- Tạo đổi tượng Getcoder, local tùy chọn
-
-```
-Geocoder geocoder = new Geocoder(this, Locale.ENGLISH);
-```
-- Gọi hàm getFromLocation, với nhiều tham số có thể truyền vào như vĩ độ, kinh độ, ...
-
-```
-geocoder.getFromLocation(latitude, longitude, 1);
-```
-
-Rồi sẽ có đối tượng Address, sẽ lấy được nhiều thông tin về địa chỉ
+<img src="img/lo2.png"/>
 
 
 ## II. Location-Based Service (Dịch vụ dựa trên vị trí)
