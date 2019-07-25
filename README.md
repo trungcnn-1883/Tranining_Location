@@ -100,7 +100,11 @@ Google đã cung cấp 1 cách mới và khuyên nên đổi sang cách đó
 
 ```
 This API is not the recommended method for accessing Android location.
-The Google Location Services API, part of Google Play services, is the preferred way to add location-awareness to your app. It offers a simpler API, higher accuracy, low-power geofencing, and more. If you are currently using the android.location API, you are strongly encouraged to switch to the Google Location Services API as soon as possible. 
+The Google Location Services API, part of Google Play services, 
+is the preferred way to add location-awareness to your app.
+It offers a simpler API, higher accuracy, low-power geofencing, and more. 
+If you are currently using the android.location API, 
+you are strongly encouraged to switch to the Google Location Services API as soon as possible. 
 
 To learn more about the Google Location Services API, see the Location API overview.
 ```
@@ -199,23 +203,24 @@ Hai quyền và độ chính xác:
 
 **FusedLocationProviderApi**: trước phiên bản Google Play Service SDK 11.0.0
 
-- **GoogleApiClient**: đối tượng chính cho việc tích hợp Google Play Service, chứa các phương thức giúp kết nối, add listener, tái kết nối tới Google Play Service
+-GoogleApiClient: đối tượng chính cho việc tích hợp Google Play Service, chứa các phương thức giúp kết nối, add listener, tái kết nối tới Google Play Service
 
 Có 2 class inner
 
-**GoogleApiClient.ConnectionCallbacks**: cung cấp callback khi client được kết nối hoặc ngắt khỏi service
+GoogleApiClient.ConnectionCallbacks: cung cấp callback khi client được kết nối hoặc ngắt khỏi service
 
 - onConnected
 
 - onConnectionSuspended
 
-**GoogleApiClient.OnConnectionFailedListener**: cung cấp callback khi có lỗi kết nối từ client tới service
+GoogleApiClient.OnConnectionFailedListener: cung cấp callback khi có lỗi kết nối từ client tới service
 
 -onConnectionFailed
 
-- **LocationRequest**: để request chất lượng của service cho việc update từ FusedLocationProviderApi
+- LocationRequest: để request chất lượng của service cho việc update từ FusedLocationProviderApi
 
 Ví dụ như có thể request độ chính xác, tần suất upate, độ trễ, ...
+
 
 **FusedLocationProviderClient**: từ phiên bản Google Play Service SDK 11.0.0, được khuyên dùng thay cho FusedLocationProviderApi
 
