@@ -52,21 +52,27 @@ class FusedProviderClientActivity : AppCompatActivity() {
 //            requestLocationPermissions()
 
         mFusedProvider = LocationServices.getFusedLocationProviderClient(this)
-
+//        getLocationData()
 
         mLocationRequest = LocationRequest.create()
         mLocationRequest?.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
         mLocationRequest?.setInterval(UPDATE_INTERVAL.toLong())
-//        mLocationRequest?.setFastestInterval(FASTEST_INTERVAL.toLong())
+        mLocationRequest?.setFastestInterval(FASTEST_INTERVAL.toLong())
 
 
         mBtnGetLocation?.setOnClickListener { v ->
             Toast.makeText(this, "listener", Toast.LENGTH_SHORT).show()
-
-            getLocationData()
-
-
+//            getLocationData()
+            mTvCurrentLocation?.setText(
+                String.format(
+                    Locale.US,
+                    "%s -- %s",
+                    mLastLocation?.getLatitude(),
+                    mLastLocation?.getLongitude()
+                )
+            )
         }
+
         mLocationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult?) {
                 if (locationResult == null) {
@@ -93,33 +99,32 @@ class FusedProviderClientActivity : AppCompatActivity() {
     }
 
     @SuppressLint("MissingPermission")
-    override fun onResume() {
-        super.onResume()
-        mFusedProvider?.requestLocationUpdates(mLocationRequest, mLocationCallback, null)
+    override fun onStart() {
+        super.onStart()
+        if (mFusedProvider != null) {
+            mFusedProvider?.requestLocationUpdates(mLocationRequest, mLocationCallback, null)
+        }
     }
 
     private fun onToast(msg: String) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+        Log.d("Fused", msg)
+
     }
 
     @SuppressLint("MissingPermission")
     private fun getLocationData() {
-        Toast.makeText(this, "Get from FuseProviderClient", Toast.LENGTH_SHORT).show()
+        Log.d("Fused", "Get from FuseProviderClient")
         mFusedProvider?.lastLocation?.addOnSuccessListener { location: Location? ->
             run {
                 if (location != null) {
-                    mTvCurrentLocation?.setText(
-                        String.format(
-                            Locale.US,
-                            "%s -- %s",
-                            location.getLatitude(),
-                            location.getLongitude()
-                        )
-                    );
+                    Log.d("Fused", "location != null")
+                    mLastLocation = location
                 } else {
-                    Toast.makeText(this, "Request failed", Toast.LENGTH_SHORT).show()
+                    Log.d("Fused", "Location is null")
                 }
             }
+        }?.addOnFailureListener {
+            Log.d("Fused", "Request failed")
         }
 
     }
