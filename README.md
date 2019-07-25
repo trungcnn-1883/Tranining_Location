@@ -9,6 +9,72 @@ Geocoding (mã hóa địa lý) là quá trình chuyển đổi địa chỉ (nh
 Reverse geocoding là quá trình chuyển đổi tọa độ địa lý thành địa chỉ có thể đọc được của con người.
 
 Trong Android ta sử dụng Geocoder để thực hiện việc này
+
+Kết hợp với class SupportMapFragment, class giúp hiện thị map trên Android, ta có thể hiển thị được tọa độ của điểm thành điểm trên bản đồ. Nhưng trước hết cần đăng kí key trên Google Api, Maps SDK for Android, rồi cho vào thẻ meta-data trong application ở Manifest: 
+
+```
+<application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+       >
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAp6SqUaIo9gESs_L0nM3PEmZaDq2Yioi4" />
+
+
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+```
+
+Các phương thức sử dụng:
+
+- getMapAsync: được gọi khi Google Play Service tồn tại
+
+- onMapReady: được gọi khi map đã sẵn sàng, trả về một đối tượng map non-null, ta có thể lấy ra để setting các thuộc tính cho map
+
+```
+  mapFragment.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                map = googleMap;
+                map.getUiSettings().setZoomControlsEnabled(true);
+```
+
+- setOnCameraIdleListener: lắng nghe các sự kiện vuốt, kéo trên map. Khi dừng thì sẽ goi tới hàm onCameraIdle()
+
+```
+map.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
+            @Override
+            public void onCameraIdle() {
+                center = map.getCameraPosition().target;
+                getAddressFromLocation(center.latitude, center.longitude);
+            }
+        });
+```
+### 2. Code
+
+- Tạo đổi tượng Getcoder, local tùy chọn
+
+```
+Geocoder geocoder = new Geocoder(this, Locale.ENGLISH);
+```
+- Gọi hàm getFromLocation, với nhiều tham số có thể truyền vào như vĩ độ, kinh đọ, ...
+
+```
+geocoder.getFromLocation(latitude, longitude, 1);
+```
+
 ## II. Location-Based Service (Dịch vụ dựa trên vị trí)
 
 ### 1. Khái niệm
