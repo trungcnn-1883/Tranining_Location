@@ -17,10 +17,11 @@ Trong Android ta sử dụng Geocoder để thực hiện việc này
 ```
 Geocoder geocoder = new Geocoder(this, Locale.ENGLISH);
 ```
-- Gọi hàm getFromLocation, với nhiều tham số có thể truyền vào như vĩ độ, kinh độ, ...
+- Gọi hàm getFromLocation, với nhiều tham số có thể truyền vào như vĩ độ, kinh độ, tên địa điểm, ...
 
 ```
 geocoder.getFromLocation(latitude, longitude, 1);
+geocoder.getFromLocationName("KeangNam", 4);
 ```
 
 Rồi sẽ có đối tượng Address, sẽ lấy được nhiều thông tin về địa chỉ
