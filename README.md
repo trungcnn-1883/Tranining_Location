@@ -12,7 +12,7 @@ Trong Android ta sử dụng Geocoder để thực hiện việc này
 
 ### 2. Code
 
-- Tạo đổi tượng Getcoder, local tùy chọn
+- Tạo đổi tượng Geocoder, local tùy chọn
 
 ```
 Geocoder geocoder = new Geocoder(this, Locale.ENGLISH);
